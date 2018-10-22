@@ -22,13 +22,7 @@ const suported_shops = [
     //TODO:ADD other wp shops in here
 ];
 define('PLUGIN_INCLUDE_DIR', plugin_dir_path(__FILE__));
-
 //Database Names:
-define('DB_NAME_SYNC_LIST', $wpdb->prefix . 'wpmbt_product_sync_list');
-define('DB_NAME_PRODUCT_ID_MAPPER', $wpdb->prefix . 'wpmbt_product_id_mapper');
-define('DB_NAME_CUSTOMER_ID_MAPPER', $wpdb->prefix . 'wpmbt_customer_id_mapper');
-define('DB_NAME_LOG', $wpdb->prefix . 'wpmbt_log');
-
 
 
 

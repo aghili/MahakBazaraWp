@@ -77,8 +77,13 @@ class sync_list
     public function remove($item)
     {
         global $wpdb;
-        $wpdb->delete(DB_NAME_SYNC_LIST, ['id' => $item->get_db_id()]);
-//        unset($this->sync_list[$product->get_db_id()]);
+        $result = [
+        ];
+        $result['result'] = $wpdb->delete(DB_NAME_SYNC_LIST, ['id' => $item->get_db_id()]);
+        $result['error'] = $wpdb->last_error;
+        $result['sql'] = $wpdb->last_query;
+        return $result;
+        //        unset($this->sync_list[$product->get_db_id()]);
 
     }
 

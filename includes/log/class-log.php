@@ -20,7 +20,7 @@ class log
     private function __construct()
     {
         global $wpdb;
-        $this->tablename = $wpdb->prefix . "wpmbt_log";
+        $this->tablename = DB_NAME_LOG;
         //echo "create sync list\n";
         try {
             //$this->load();
@@ -43,15 +43,15 @@ class log
 //        $wpdb->delete($this->tablename,['id'=>$item->get_db_id()]);
 //    }
 
-    public function get($type = 'main', $count = 10, $offset = 1)
+    public function get($type = 'main', $count = 10, $offset = 0)
     {
         global $wpdb;
         $sql = "SELECT * FROM $this->tablename ";
         $sql .= " WHERE `type` like \"{$type}\" ";
         $sql .= " ORDER BY `id` DESC LIMIT $offset,$count;";
         $result_db = $wpdb->get_results($sql);
-        if (!$result_db)
-            return null;
+        if (!empty($wpdb->last_error))
+            return $wpdb->last_error;
         $result = [];
         foreach ($result_db as $key => $record) {
             $class_log = "log_{$type}_item";

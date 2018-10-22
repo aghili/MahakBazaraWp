@@ -148,7 +148,7 @@ class Wpmbt_Admin extends base_info
 		$valid['bz_pass_code'] = (isset($input['bz_pass_code']) && !empty($input['bz_pass_code'])) ? $input['bz_pass_code'] : "";
 		$valid['bz_db_id'] = (isset($input['bz_db_id']) && !empty($input['bz_db_id'])) ? $input['bz_db_id'] : "";
 		$valid['bz_mahak_url'] = (isset($input['bz_mahak_url']) && !empty($input['bz_mahak_url'])) ? $input['bz_mahak_url'] : "";
-		$valid['sync_peri	od_time'] = (isset($input['sync_period_time']) && !empty($input['sync_period_time']) && $input['sync_period_time'] > 0) ? $input['sync_period_time'] : "1";
+		$valid['sync_period_time'] = (isset($input['sync_period_time']) && !empty($input['sync_period_time']) && $input['sync_period_time'] > 4) ? $input['sync_period_time'] : "5";
 		$valid['update_good_per_hint'] = (isset($input['update_good_per_hint']) && !empty($input['update_good_per_hint']) && $input['update_good_per_hint'] > -2) ? $input['update_good_per_hint'] : "1";
 		$valid['first_conf_done'] = true;
 

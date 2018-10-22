@@ -281,32 +281,32 @@ class Wpmbt extends base_info
 
 	static function  action_woocommerce_before_shop_loop_item(  ) {
 
-		$product_id = get_post()->ID;
-		//var_dump($product_id);
-		$options = wpmbt_options::GetInstance();
-		if (!array_key_exists('sync_list', $options->options)) return;
-		if (!array_key_exists($product_id, $options->options['sync_list'])) return;
-		$item = $options->options['sync_list'][$product_id];
-		$product = wc_get_product($product_id);
-		if($product) {
-			if($item->Deleted)
-				$product->set_status(server_product_status::trash);
-			else {
-				$attributes = $product->get_attributes();
-//			foreach($attributes as $key => $attribute)
-//			if(array_key_exists()){
-//				$attributes['medium-quantity-price']['value'] = $updatedPrices[$sku][4];
-				//$attributes['low-quantity-price']['value'] = $item[''];
-				//  $attributes['v-low-quantity-price']['value'] = $updatedPrices[$sku][2];
-				$product->set_name( $item->Name );
-				$product->set_description( $item->Comment );
-				$product->set_date_created($item->CreateDate);
-				$product->set_date_modified($item->UpdateDate);
-			}
+//		$product_id = get_post()->ID;
+//		//var_dump($product_id);
+//		$options = wpmbt_options::GetInstance();
+//		if (!array_key_exists('sync_list', $options->options)) return;
+//		if (!array_key_exists($product_id, $options->options['sync_list'])) return;
+//		$item = $options->options['sync_list'][$product_id];
+//		$product = wc_get_product($product_id);
+//		if($product) {
+//			if($item->Deleted)
+//				$product->set_status(server_product_status::trash);
+//			else {
+//				$attributes = $product->get_attributes();
+////			foreach($attributes as $key => $attribute)
+////			if(array_key_exists()){
+////				$attributes['medium-quantity-price']['value'] = $updatedPrices[$sku][4];
+//				//$attributes['low-quantity-price']['value'] = $item[''];
+//				//  $attributes['v-low-quantity-price']['value'] = $updatedPrices[$sku][2];
+//				$product->set_name( $item->Name );
+//				$product->set_description( $item->Comment );
+//				$product->set_date_created($item->CreateDate);
+//				$product->set_date_modified($item->UpdateDate);
+//			}
 			//update_post_meta($id, '_product_attributes', $attributes);
 //		}
 
-		}
+//		}
 	}
 
 	/**

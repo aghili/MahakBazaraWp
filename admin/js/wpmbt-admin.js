@@ -47,6 +47,13 @@
 	$(window).load(function () {
 		var server_name = window.location.origin;
 
+		function show_log_error(error) {
+			var html = ' <tr class=""> <td class="wc_error_tip" colspan="5">' + error + '</td></tr>';
+
+			$('#log-list').html(html);
+
+		}
+
 		function set_log_rows(value) {
 			var html = '';
 
@@ -61,7 +68,10 @@
 			$.ajax({
 				url: server_name + '/?rest_route=/wpmbt/v1/get-sync-log-list',
 				success: function (result) {
-					set_log_rows(result.data);
+					if (result.status == 'error')
+						show_log_error(result.message);
+					else
+						set_log_rows(result.data);
 				}
 			});
 		}

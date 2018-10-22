@@ -46,7 +46,7 @@ class sync
     {
         $log = log::get_instance();
         try {
-            $log_row = $log->get('sync', 1, 1)[0];
+            $log_row = $log->get('sync',1)[0];
             if (!$log_row)
                 return false;
             if ($log_row instanceof log_sync_item) {
@@ -55,7 +55,7 @@ class sync
                 $period = $this->options->options['sync_period_time'];
                 if ($period < 1)
                     $period = 1;
-                $period *= 60;
+                $period =$period * 60;
                 return $def > $period;
             }
         } catch (Exception $ex) {
@@ -471,7 +471,7 @@ class sync
                         //if (!is_a($product, 'WP_Error'))
                         //$result_row['wp_id'] = $product->get_id();
                         $result_row['result'] = $item;
-                        $this->sync_list->remove($item);
+                        $result_row['remove_from_list'] = $this->sync_list->remove($item);
                     } catch (Exception $ex) {
                         $result_row['status'] = 'error';
                         $result_row['message'] = "[ERROR] $ex->getCode() : $ex->getMessage()";

@@ -47,18 +47,22 @@ function get_sync_log_list()
         'result' => []
     ];
     try {
-        try {
-            //echo "start update record function\n";
-            //$result['data'] =
-            $log = log::get_instance();
-            $data = $log->get('sync');
+        //echo "start update record function\n";
+        //$result['data'] =
+        $log = log::get_instance();
+        $data = $log->get('sync');
+        if(is_string($data))
+        { $result['status'] = 'error';
+            $result['message'] = '[ERROR]  :' .$data;
+        }else {
             $result['data'] = $data;
-        } catch (Exception $ex) {
-            $result['message'] = '[ERROR] ' . $ex->getCode() . ' :' . $ex->getMessage();
+            $result['status'] = 'success';
         }
     } catch (Exception $ex) {
+        $result['status'] = 'error';
         $result['message'] = '[ERROR] ' . $ex->getCode() . ' :' . $ex->getMessage();
     }
+
 
     return $result;
     //   return $post[0]->post_title;
@@ -89,6 +93,7 @@ function hit_update_records($params)
             //echo "start update record function\n";
             //$result['data'] =
             $data = $sync->update_records();
+            //$result['data'] = $data;
             $result['result']['time'] = time();
             $result['result']['count_products'] = count($data);
             $result['result']['count_customers'] = count($data);

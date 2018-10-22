@@ -49,65 +49,48 @@ class Wpmbt_Activator {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "DROP TABLE IF EXISTS `$table_customer_mapper_name`;
-CREATE TABLE `$table_customer_mapper_name` (
+		$sql = "CREATE TABLE `$table_customer_mapper_name` (
   `id_customer` int(9) NOT NULL,
   `id_mahak` int(9) NOT NULL DEFAULT '0',
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_customer`,`id_mahak`),
+  KEY `id_customer` (`id_customer`),
+  KEY `id_mahak` (`id_mahak`)
 ) $charset_collate;
-	DROP TABLE IF EXISTS `$table_wpmbt_log`;
 CREATE TABLE `$table_wpmbt_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `value` text NOT NULL,
   `type` char(20) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `type` (`type`)
 ) $charset_collate;
-	DROP TABLE IF EXISTS `$table_product_mapper_name`;
-CREATE TABLE IF NOT EXISTS `$table_product_mapper_name` (
+CREATE TABLE `$table_product_mapper_name` (
   `id_product` int(9) NOT NULL,
   `id_mahak` int(9) NOT NULL DEFAULT '0',
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_product`,`id_mahak`),
+  KEY `id_mahak` (`id_mahak`),
+  KEY `id_product` (`id_product`)
 ) $charset_collate;
-	DROP TABLE IF EXISTS `$table_sync_name`;
-CREATE TABLE IF NOT EXISTS `$table_sync_name` (
+CREATE TABLE `$table_sync_name` (
   `id` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `value` text COLLATE utf8mb4_unicode_ci NOT NULL
-) $charset_collate;
+  `value` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) $charset_collate;";
 
---
--- Indexes for table `wp_wpmbt_customer_id_mapper`
---
-ALTER TABLE `$table_customer_mapper_name`
-  ADD PRIMARY KEY (`id_customer`,`id_mahak`),
-  ADD KEY `id_customer` (`id_customer`),
-  ADD KEY `id_mahak` (`id_mahak`);
+//		DROP TABLE IF EXISTS `$table_sync_name`;
+//		DROP TABLE IF EXISTS `$table_product_mapper_name`;
+//		DROP TABLE IF EXISTS `$table_wpmbt_log`;
+//		DROP TABLE IF EXISTS `$table_customer_mapper_name`;
 
---
--- Indexes for table `wp_wpmbt_log`
---
-ALTER TABLE `$table_wpmbt_log`
-  ADD PRIMARY KEY (`id`),
-  ADD INDEX(`type`);
-
---
--- Indexes for table `wp_wpmbt_product_id_mapper`
---
-ALTER TABLE `$table_product_mapper_name`
-  ADD PRIMARY KEY (`id_product`,`id_mahak`),
-  ADD KEY `id_mahak` (`id_mahak`),
-  ADD KEY `id_product` (`id_product`);
-
---
--- Indexes for table `wp_wpmbt_product_sync_list`
---
-ALTER TABLE `$table_sync_name`
-  ADD PRIMARY KEY (`id`);";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		global $wpdb;
 		dbDelta($sql);
-
+		if(!empty($wpdb->last_error))
+		throw new exception($wpdb->last_error.$wpdb->last_query);
 		add_option('wpmbt_db_version', $wpmbt_db_version);
 	}
 
