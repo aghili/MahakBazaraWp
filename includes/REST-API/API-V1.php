@@ -123,8 +123,9 @@ function hit_sync()
             //$result['data'] =
             $data = $sync->get_sync('user');
             $result['result']['time'] = time();
-            $result['result']['count_products'] = count($data['get_products']['products']);
-            $result['result']['count_customers'] = count($data['get_customers']['customers']);
+            //$result['result']['data'] = $data;
+            $result['result']['count_products'] = @count($data['get_products']['products']);
+            $result['result']['count_customers'] = @count($data['get_customers']['customers']);
             $result['result']['time_format'] = date("Y-M-d h:i:s");
         } catch (Exception $ex) {
             $result['message'] = '[ERROR] ' . $ex->getCode() . ' :' . $ex->getMessage();

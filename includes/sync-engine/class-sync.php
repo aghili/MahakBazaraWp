@@ -105,7 +105,7 @@ class sync
         }
         try {
             $result['get_products'] = $this->get_sync_products();
-            $sync_log->set_count_product(count($result['get_products']['products']));
+            $sync_log->set_count_product(@count($result['get_products']['products']));
             $sync_log->save();
         } catch (Exception $ex) {
             throw new Exception("cant sync product list with server .\nReason : $ex->getMessage()", 2001);
@@ -125,7 +125,7 @@ class sync
 
         try {
             $result['get_customers'] = $this->get_sync_customers();
-            $sync_log->set_count_customer(count($result['get_customers']['customers']));
+            $sync_log->set_count_customer(@count($result['get_customers']['customers']));
             $sync_log->save();
         } catch (Exception $ex) {
             throw new Exception("cant sync customer list with server .\nReason : $ex->getMessage()", 2001);
@@ -156,6 +156,8 @@ class sync
                 $result_product = [
                     'ProductID' => $item->ProductID,
                 ];
+                if($item->RowVersion>$this->options->options['changedAfter_products'])
+                    $this->options->options['changedAfter_products'] = $item->RowVersion;
                 try {
                     $product = $this->sync_list->get_product($item->ProductID);
                     $result_product['product_action']['get_product'] = true;
@@ -239,6 +241,8 @@ class sync
                 $result_product = [
                     'ProductID' => $item->ProductID,
                 ];
+                if($item->RowVersion>$this->options->options['changedAfter_prices'])
+                    $this->options->options['changedAfter_prices'] = $item->RowVersion;
                 $product = null;
                 try {
                     $product = $this->sync_list->get_product($item->ProductID);
@@ -315,6 +319,8 @@ class sync
                 $result_product = [
                     'ProductID' => $item->ProductID,
                 ];
+                if($item->RowVersion>$this->options->options['changedAfter_images'])
+                    $this->options->options['changedAfter_images'] = $item->RowVersion;
                 try {
                     $product = $this->sync_list->get_product($item->ProductID);
                     $result_product['product_action']['get_product'] = true;
@@ -387,6 +393,8 @@ class sync
                 $result_customer = [
                     'PersonID' => $item->PersonID,
                 ];
+                if($item->RowVersion>$this->options->options['changedAfter_customers'])
+                    $this->options->options['changedAfter_customers'] = $item->RowVersion;
                 try {
                     $customer = $this->sync_list->get_customer($item->PersonID);
                     $result_customer['customer_action']['get_customer'] = true;

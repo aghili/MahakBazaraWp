@@ -127,9 +127,10 @@ class sync_server
     {
         $send_arr = [
             'systemSyncID' => $this->options->options['bz_db_id'],
-            'changeAfter' => $this->options->options['last_sync_time'],
+            'changedAfter' => $this->options->options['changedAfter_products'],
             'userToken' => $this->options->options['token']
         ];
+
         $data = $send_arr;
         $response = $this->Call_API_post_request($this->options->options['bz_mahak_url'] . '/sync/GetProducts', $data);
         if ($response) {
@@ -145,7 +146,7 @@ class sync_server
     {
         $send_arr = [
             'systemSyncID' => $this->options->options['bz_db_id'],
-            'changeAfter' => $this->options->options['last_sync_time'],
+            'changedAfter' => $this->options->options['changedAfter_prices'],
             'userToken' => $this->options->options['token']
         ];
         $data = $send_arr;
@@ -163,7 +164,7 @@ class sync_server
     {
         $send_arr = [
             'systemSyncID' => $this->options->options['bz_db_id'],
-            'changeAfter' => $this->options->options['last_sync_time'],
+            'changedAfter' => $this->options->options['changedAfter_images'],
             'userToken' => $this->options->options['token']
         ];
         $data = $send_arr;
@@ -181,7 +182,7 @@ class sync_server
     {
         $send_arr = [
             'systemSyncID' => $this->options->options['bz_db_id'],
-            'changeAfter' => $this->options->options['last_sync_time'],
+            'changedAfter' => $this->options->options['changedAfter_customers'],
             'userToken' => $this->options->options['token']
         ];
         $data = $send_arr;
